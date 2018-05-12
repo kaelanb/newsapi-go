@@ -74,6 +74,7 @@ func (n *News) GetTopHeadlines(apikey string, args ...string) *News {
 		log.Fatal(err)
 	}
 	defer res.Body.Close()
+
 	json.Unmarshal(body, &n)
 	if n.Status == "error" {
 		jsonErr := Error{}
