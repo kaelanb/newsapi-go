@@ -9,14 +9,14 @@ import (
 	"time"
 )
 
-//Error json struct for error message
+// Error json struct for error message.
 type Error struct {
 	Status  string `json:"status"`
 	Code    string `json:"code"`
 	Message string `json:"message"`
 }
 
-//News json struct for news articles
+// News json struct for news articles.
 type News struct {
 	Status       string `json:"status"`
 	TotalResults int    `json:"totalResults"`
@@ -34,7 +34,7 @@ type News struct {
 	} `json:"articles"`
 }
 
-//Source json struct for source
+// Source json struct for source.
 type Source struct {
 	Status  string `json:"status"`
 	Sources []struct {
@@ -48,7 +48,7 @@ type Source struct {
 	} `json:"sources"`
 }
 
-//GetTopHeadlines get top news headlines relevant to given parameters
+// GetTopHeadlines get top news headlines relevant to given parameters.
 func (n *News) GetTopHeadlines(apikey string, args ...string) *News {
 	base := "https://newsapi.org/v2/top-headlines?"
 
@@ -85,7 +85,7 @@ func (n *News) GetTopHeadlines(apikey string, args ...string) *News {
 	return n
 }
 
-//GetEverything Get every article relevant to given parameters
+// GetEverything Get every article relevant to given parameters.
 func (n *News) GetEverything(apikey string, args ...string) *News {
 	base := "https://newsapi.org/v2/everything?"
 
@@ -122,8 +122,8 @@ func (n *News) GetEverything(apikey string, args ...string) *News {
 	return n
 }
 
-//GetSources get all sources relevant to given parameters
-func (s *Source) GetSources(apikey string, args ...string) *Source {
+// GetSources get all sources relevant to given parameters.
+func (s *Source) GetSources(apikey string, args ...string) *Sources {
 	base := "https://newsapi.org/v2/sources?"
 
 	newsClient := &http.Client{
