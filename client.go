@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -26,7 +25,7 @@ type Error struct {
 
 // Error implements error interface.
 func (err Error) Error() string {
-	return fmt.Sprintf("code: %s message: %s", err.Code, err.Nessage)
+	return fmt.Sprintf("code: %s message: %s", err.Code, err.Message)
 }
 
 // NewsResponse json struct for news articles.
@@ -75,6 +74,7 @@ type Source struct {
 
 // Client for api requests.
 type Client struct {
+	apiKey     string
 	httpClient *http.Client
 }
 
@@ -83,19 +83,23 @@ func New(apiKey string) *Client {
 	cli := Client{
 		httpClient: &http.Client{
 			Timeout: defaultTimeout,
-			apiKey:  apiKey,
 		},
+		apiKey: apiKey,
 	}
 
 	return &cli
 }
 
 // GetTopHeadlines get top news headlines relevant to given parameters.
-func (cli *Client) GetTopHeadlines(args ...string) (*NewsResponse, error) {
+func (cli *Client) GetTopHeadlines(args []string) (*NewsResponse, error) {
+	if len(args) == 0 {
+		return nil, errors.New("not enough arguments")
+	}
+
 	url := buildURL(fmt.Sprintf("%s/%s?", baseURL, "top-headlines"), args...)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		log.Fatal(err)
+		return nil, errors.Wrap(err, "build reqeust")
 	}
 
 	req.Header.Set("Authorization", cli.apiKey)
@@ -123,16 +127,20 @@ func (cli *Client) GetTopHeadlines(args ...string) (*NewsResponse, error) {
 		return nil, err
 	}
 
-	return nr, nil
+	return &nr, nil
 
 }
 
 // GetEverything Get every article relevant to given parameters.
-func (cli *Client) GetEverything(args ...string) (*NewsResponse, error) {
+func (cli *Client) GetEverything(args []string) (*NewsResponse, error) {
+	if len(args) == 0 {
+		return nil, errors.New("not enough arguments")
+	}
+
 	url := buildURL(fmt.Sprintf("%s/%s?", baseURL, "everything"), args...)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		log.Fatal(err)
+		return nil, errors.Wrap(err, "build reqeust")
 	}
 
 	req.Header.Set("Authorization", cli.apiKey)
@@ -160,15 +168,19 @@ func (cli *Client) GetEverything(args ...string) (*NewsResponse, error) {
 		return nil, err
 	}
 
-	return nr, nil
+	return &nr, nil
 }
 
 // GetSources get all sources relevant to given parameters.
-func (cli *Cliebt) GetSources(args ...string) (*SourcesResponse, error) {
+func (cli *Client) GetSources(args []string) (*SourcesResponse, error) {
+	if len(args) == 0 {
+		return nil, errors.New("not enough arguments")
+	}
+
 	url := buildURL(fmt.Sprintf("%s/%s?", baseURL, "sources"), args...)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		log.Fatal(err)
+		return nil, errors.Wrap(err, "build reqeust")
 	}
 
 	req.Header.Set("Authorization", cli.apiKey)
@@ -196,7 +208,7 @@ func (cli *Cliebt) GetSources(args ...string) (*SourcesResponse, error) {
 		return nil, err
 	}
 
-	return nr, nil
+	return &sr, nil
 
 }
 

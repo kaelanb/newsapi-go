@@ -24,7 +24,9 @@ Request parameters:
 ```
 import (
 	"fmt"
-	"github.com/kaelanb/newsapi-go"
+	"log"
+
+	newsapi	"github.com/kaelanb/newsapi-go"
 )
 
 func main() {
@@ -32,7 +34,7 @@ func main() {
 	client := newsapi.New(apikey)
 
 	query1 := []string{"country=ca"}
-	newsResponse, err := client.GetTopHeadlines(query1...)
+	newsResponse, err := client.GetTopHeadlines(query1)
 	if err != nil {
 		log.Fatal(err)
 	}
