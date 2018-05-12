@@ -2,7 +2,7 @@
 Client for the [News API](https://newsapi.org/)
 
 # Installation
-You can simply do `go get github.com/kaelanb/newsapi-go/...`
+You can simply do `go get github.com/kaelanb/newsapi-go`
 
 # DOC
 Full Documentation for all the endpoints can be found [here](https://newsapi.org/docs/endpoints)
@@ -24,16 +24,19 @@ Request parameters:
 ```
 import (
 	"fmt"
-	"github.com/kaelanb/newsapi-go/newsapi"
+	"github.com/kaelanb/newsapi-go"
 )
 
 func main() {
 	apikey := "apikeyhere"
-	n := newsapi.News{}
+	client := newsapi.New(apikey)
 
 	query1 := []string{"country=ca"}
-	news := n.GetTopHeadlines(apikey, query1...)
+	newsResponse, err := client.GetTopHeadlines(query1...)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	fmt.Println(news)
+	fmt.Println(newsResponse)
 }
 ```
