@@ -73,7 +73,7 @@ func (n *News) GetTopHeadlines(apikey string, args ...string) *News {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	defer res.Body.Close()
 	json.Unmarshal(body, &n)
 	if n.Status == "error" {
 		jsonErr := Error{}
@@ -109,6 +109,7 @@ func (n *News) GetEverything(apikey string, args ...string) *News {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer res.Body.Close()
 
 	json.Unmarshal(body, &n)
 	if n.Status == "error" {
@@ -145,6 +146,7 @@ func (s *Source) GetSources(apikey string, args ...string) *Source {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer res.Body.Close()
 
 	json.Unmarshal(body, &s)
 	if s.Status == "error" {
