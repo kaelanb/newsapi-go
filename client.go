@@ -117,7 +117,7 @@ func (cli *Client) GetTopHeadlines(args []string) (*NewsResponse, error) {
 
 	nr := NewsResponse{}
 	if err := json.Unmarshal(body, &nr); err != nil {
-		return nil, errors.Wrap(err, "unmrashal to news response")
+		return nil, errors.Wrap(err, "unmarshal to news response")
 	}
 	if nr.Status == "error" {
 		err := Error{}
@@ -140,7 +140,7 @@ func (cli *Client) GetEverything(args []string) (*NewsResponse, error) {
 	url := buildURL(fmt.Sprintf("%s/%s?", baseURL, "everything"), args...)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return nil, errors.Wrap(err, "build reqeust")
+		return nil, errors.Wrap(err, "build request")
 	}
 
 	req.Header.Set("Authorization", cli.apiKey)
@@ -158,7 +158,7 @@ func (cli *Client) GetEverything(args []string) (*NewsResponse, error) {
 
 	nr := NewsResponse{}
 	if err := json.Unmarshal(body, &nr); err != nil {
-		return nil, errors.Wrap(err, "unmrashal to news response")
+		return nil, errors.Wrap(err, "unmarshal to news response")
 	}
 	if nr.Status == "error" {
 		err := Error{}
@@ -180,7 +180,7 @@ func (cli *Client) GetSources(args []string) (*SourcesResponse, error) {
 	url := buildURL(fmt.Sprintf("%s/%s?", baseURL, "sources"), args...)
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
-		return nil, errors.Wrap(err, "build reqeust")
+		return nil, errors.Wrap(err, "build request")
 	}
 
 	req.Header.Set("Authorization", cli.apiKey)
@@ -198,7 +198,7 @@ func (cli *Client) GetSources(args []string) (*SourcesResponse, error) {
 
 	sr := SourcesResponse{}
 	if err := json.Unmarshal(body, &sr); err != nil {
-		return nil, errors.Wrap(err, "unmrashal to sources response")
+		return nil, errors.Wrap(err, "unmarshal to sources response")
 	}
 	if sr.Status == "error" {
 		err := Error{}
